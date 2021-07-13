@@ -1,0 +1,167 @@
+C:\Users\TJ>mysql -u root -p  로그인이 안되는 경우 환경설정 방법
+
+C:/AutoSet10/server/MariaDB10/bin  주소 복사
+
+환경설정 path 연결
+탐색창에
+내pc
+오른쪽 마우스
+속성
+고급 시스템 설정 - 좌측메뉴
+팝업창 맨 하단 - 환경변수 클릭
+시스템변수 하단 목록 - path 더블클릭
+환경변수 편집창에서 - 우측메뉴 버튼 중 [새로만들기]
+C:/AutoSet10/server/MariaDB10/bin  붙여넣기
+
+MTSPL 접속 - 인증절차 로그인 방법
+검색창에서 cmd 엔터
+도스(DOS) 모드 - CLI (command line interface)
+C:\Users\TJ>mysql -u root -p
+Enter password: *******
+Enter password: autoset
+
+인증확인 끝 로그인 접속
+//
+데이터베이스들 보기(show)(세미콜론 필수) : 복수형 사용
+MariaDB [(none)]> show databases;
+/
+데이터베이스(database) 생성 - create : 단수형 사용
+
+구문
+create database 데이터베이스이름;
+
+MariaDB [(none)]> create database member;
+Query OK, 1 row affected (0.011 sec)
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| member             |
+| mysql              |
+| performance_schema |
+| test               |
++--------------------+
+5 rows in set (0.001 sec)
+
+//
+1. 데이터베이스 생성 : 학교 데이터베이스 생성
+2. 데이터베이스 사용 : use
+3. 테이블 생성하기 : 학교 성적표 테이블 생성
+/
+
+1. 데이터베이스 생성 : 학교 데이터베이스 생성
+MariaDB [(none)]> create database school;
+
+2. 데이터베이스 사용 : use
+MariaDB [(none)]> use school;
+Database changed
+MariaDB [school]>
+
+3. 테이블 생성하기 : 학교 성적표 테이블 생성
+
+create table sungjuk(
+    idx int auto_increment not null,
+    no varchar(13) not null,
+    name varchar(30) not null,
+    kor int(11) not null,
+    eng int(11) not null,
+    mat int(11) not null,
+    etc varchar(20) null,
+    primary key(idx, no)
+);
+
+4. 생성된 테이블 보기 show tables;
+>
+MariaDB [school]> show tables;
++------------------+
+| Tables_in_school |
++------------------+
+| sungjuk          |
++------------------+
+1 row in set (0.001 sec)
+
+5. 생성된 테이블 구조(describe; desc) 확인
+
+desc 테이블이름;
+>
+MariaDB [school]> desc sungjuk;
++-------+-------------+------+-----+---------+----------------+
+| Field | Type        | Null | Key | Default | Extra          |
++-------+-------------+------+-----+---------+----------------+
+| idx   | int(11)     | NO   | PRI | NULL    | auto_increment |
+| no    | varchar(13) | NO   | PRI | NULL    |                |
+| name  | varchar(30) | NO   |     | NULL    |                |
+| kor   | int(11)     | NO   |     | NULL    |                |
+| eng   | int(11)     | NO   |     | NULL    |                |
+| mat   | int(11)     | NO   |     | NULL    |                |
+| etc   | varchar(20) | YES  |     | NULL    |                |
++-------+-------------+------+-----+---------+----------------+
+7 rows in set (0.032 sec)
+
+MariaDB [school]>
+
+
+
+//////////////////////////////////////////////////
+1. 데이터베이스 생성 : 학교 데이터베이스 생성
+2. 데이터베이스 사용 : use
+생략(이미 사용 중)
+//////////////////////////////////////////
+3. 테이블 생성하기 : 학교 주소록 테이블 생성
+
+create table address(
+    idx int auto_increment not null,
+    no varchar(13) not null,
+    name varchar(30) not null,
+    hp varchar(13) not null,
+    tel varchar(13) not null,
+    address varchar(250) not null,
+    primary key(idx, no)
+);
+>
+MariaDB [school]> create table address(
+    ->     idx int auto_increment not null,
+    ->     no varchar(13) not null,
+    ->     name varchar(30) not null,
+    ->     hp varchar(13) not null,
+    ->     tel varchar(13) not null,
+    ->     address varchar(250) not null,
+    ->     primary key(idx, no)
+    -> );
+Query OK, 0 rows affected (0.118 sec)
+
+MariaDB [school]> show tables;
++------------------+
+| Tables_in_school |
++------------------+
+| address          |
+| sungjuk          |
++------------------+
+2 rows in set (0.000 sec)
+
+4. 테이블 구조 확인하기 : describe address;
+
+MariaDB [school]> describe address;
++---------+--------------+------+-----+---------+----------------+
+| Field   | Type         | Null | Key | Default | Extra          |
++---------+--------------+------+-----+---------+----------------+
+| idx     | int(11)      | NO   | PRI | NULL    | auto_increment |
+| no      | varchar(13)  | NO   | PRI | NULL    |                |
+| name    | varchar(30)  | NO   |     | NULL    |                |
+| hp      | varchar(13)  | NO   |     | NULL    |                |
+| tel     | varchar(13)  | NO   |     | NULL    |                |
+| address | varchar(250) | NO   |     | NULL    |                |
++---------+--------------+------+-----+---------+----------------+
+6 rows in set (0.045 sec)
+
+create table teacher(
+    idx int auto_increment not null,
+    no varchar(13) not null,
+    name varchar(30) not null,
+    class varchar(10) not null,
+    hp varchar(13) not null,
+    tel varchar(13) not null,
+    primary key(idx, no)
+);
